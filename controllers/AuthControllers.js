@@ -6,7 +6,7 @@ const nodemailer=require("nodemailer");
 require("dotenv").config();
 const Sendmail=async(FirstName,Email,UserId)=>{
   try{
-    const transporter=nodemailer.createTransport({
+    const transporter= nodemailer.createTransport({
       host:process.env.MAIL_HOST,
       auth:{
         user:process.env.MAIL_USER,
@@ -16,13 +16,12 @@ const Sendmail=async(FirstName,Email,UserId)=>{
     const hashId=JWT.sign({
       UserId
     },process.env.JWT_SECRET_KEY);
-    let info=transporter.sendMail({
+    let info=await transporter.sendMail({
       from:'Nishant Priyadarshi',
       to:Email,
       subject:"For Varification of Email",
-      html:`<p>Hii ${FirstName}, Please Click Here <a href="http://127.0.0.1:3000/api/v1/verifyuser/:${hashId}">Link</a> To Verify Your Email</p>`
+      html:`<p>Hii ${FirstName}, Please Click Here <a href="http://localhost:3000/api/v1/Auth/VerifyUser/${hashId}">Link</a> To Verify Your Email</p>`
     })
-    console.log("info",info);
   }catch(err){
     console.log("Error while sending Email",err)
   }
@@ -42,7 +41,7 @@ exports.LogIn = async (req, res) => {
                 message: "Password and Confirm Password do not match",
               });
         }
-        const User= UserSchema.findOne({Email:Email})
+        const User=await UserSchema.findOne({Email:Email})
         if(!User){
             return res.status(200).json({
                 success: false,
@@ -55,7 +54,7 @@ exports.LogIn = async (req, res) => {
             message: "User does not verified",
           });
         }
-        if(! await bcrypt.compare(Password, User.password)){
+        if(! await bcrypt.compare(Password, User.Password)){
             return res.status(200).json({
                 success: false,
                 message: "Password is incorrect",
@@ -113,7 +112,7 @@ exports.SignUp = async (req, res) => {
         message: "User already exists",
       });
     }
-    const hashedPassword = await bcrypt.hash(User.password, "sha256");
+    const hashedPassword = await bcrypt.hash(Password,10);
     const NewUser = await UserSchema.create({
       FirstName: FirstName,
       LastName: LastName,
@@ -121,11 +120,11 @@ exports.SignUp = async (req, res) => {
       PhoneNumber: PhoneNumber,
       Password: hashedPassword,
       Verified: false,
-    },{new: true});
+    });
     Sendmail(FirstName,Email,NewUser._id);
     return res
       .status(200)
-      .json({ success: true, message: "User Sign In Successfully" ,NewUser:NewUser});
+      .json({ success: true, message: "Email send Successfully" ,NewUser:NewUser});
   } catch (err) {
     console.log(err);
     return res.status(200).json({ success: false, message: "Error In SignUp" });
@@ -134,8 +133,8 @@ exports.SignUp = async (req, res) => {
 exports.VerifyUser=async(req,res)=>{
     try{
       const HashedId=req.params.id;
-      const UserId=await JWT.verify(HashedId,process.env.JWT_SECRET_KEY)
-      const UpdateUser=await UserSchema.findByIdAndUpdate(UserId,{
+      const UserId= JWT.verify(HashedId,process.env.JWT_SECRET_KEY)
+      const UpdateUser=await UserSchema.findByIdAndUpdate(UserId.UserId,{
         $set:{
           Verified:true
         }

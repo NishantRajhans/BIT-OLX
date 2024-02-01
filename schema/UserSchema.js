@@ -18,7 +18,7 @@ const UserSchema = new mongoose.Schema(
         required: true
     },
     PhoneNumber:{
-        type:Number,
+        type:String,
         required: true
     },
     Products:[

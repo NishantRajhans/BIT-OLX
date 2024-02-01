@@ -11,14 +11,15 @@ const {
     Password,
     PhoneNumber,
   } = req.body;
-  const hashedPassword=bcrypt.hash(Password,10);
-  const NewUser=await UserSchema.findOneAndUpdate(User.Email,{
+  const hashedPassword=await bcrypt.hash(Password,10);
+  const NewUser=await UserSchema.findOneAndUpdate({Email:Email},{
     FirstName:FirstName,
     LastName:LastName,
     Email:Email,
     Password:hashedPassword,
     PhoneNumber:PhoneNumber
   },{new:true})
+  console.log("3");
   return res.status(200).json({
     success: true,
     message:"User updated successfully",
