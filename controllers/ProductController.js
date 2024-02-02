@@ -41,7 +41,7 @@ exports.EditProduct=async(req,res)=>{
     try{
         const {ProductImage,ProductDescription,ProductPrice}=req.body;
         const ProductId=req.params.id
-        const Product=await ProductSchema.findByIdAndDelete(ProductId,{
+        const Product=await ProductSchema.findByIdAndUpdate({_id:ProductId},{
             ProductImage:ProductImage,
             ProductDescription:ProductDescription,
             ProductPrice:ProductPrice,
@@ -62,16 +62,13 @@ exports.DeleteProduct=async(req,res)=>{
     try{
         const ProductId=req.params.id
         const Product=await ProductSchema.findByIdAndDelete({_id:ProductId});
-        const UpdateUser=await UserSchema.findByIdAndUpdate(req.User.id,{
-            $pull:{
-                Products:Product._id
-            }
-        },{new:true});
+        const UpdateUser=await UserSchema.findOneAndUpdate({Email:req.User.Email},{$pull:{
+            Products:ProductId
+        }},{new:true});
         return res.status(200).json({
             success: true,
             message:"product delete successfully",
-            UpdateUser: UpdateUser,
-            Product: Product
+            UpdateUser: UpdateUser
         })
 }catch(err){
     return res.status(200).json({
@@ -82,8 +79,7 @@ exports.DeleteProduct=async(req,res)=>{
 }
 exports.GetAllProducts=async(req,res)=>{
     try{
-        const Products=await ProductSchema.find({}).populate("UserSchema").exec();
-        
+        const Products=await ProductSchema.find({}).populate("ProductSeller").exec();
         return res.status(200).json({
             success: true,
             message:"Get all products successfully",
@@ -99,7 +95,7 @@ exports.GetAllProducts=async(req,res)=>{
 }
 exports.GetProduct=async(req,res)=>{
     try{
-        const Product=await ProductSchema.find(req.params.id).populate("UserSchema").exec();
+        const Product=await ProductSchema.findById({_id:req.params.id}).populate("ProductSeller").exec();
         return res.status(200).json({
             success: true,
             message:"Get product successfully",
@@ -114,12 +110,12 @@ exports.GetProduct=async(req,res)=>{
 }
 exports.GetMyProduct=async(req,res)=>{
     try{
-        const User=req.User
-        const Product=await ProductSchema.find(User._id).populate("UserSchema").exec();
+        const UserEmail=req.User.Email
+        const User=await UserSchema.find({Email:UserEmail}).populate("Products").exec();
         return res.status(200).json({
             success: true,
             message:"Get product successfully",
-            Product: Product
+            Products:User[0].Products
         })
 }catch(err){
     return res.status(200).json({
