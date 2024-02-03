@@ -20,7 +20,7 @@ const Sendmail=async(FirstName,Email,UserId)=>{
       from:'Nishant Priyadarshi',
       to:Email,
       subject:"For Varification of Email",
-      html:`<p>Hii ${FirstName}, Please Click Here <a href="https://bitolx-backend.onrender.com/v1/Auth/VerifyUser/${hashId}">Link</a> To Verify Your Email</p>`
+      html:`<p>Hii ${FirstName}, Please Click Here <a href="https://bitolx-backend.onrender.com/api/v1/Auth/VerifyUser/${hashId}">Link</a> To Verify Your Email</p>`
     })
   }catch(err){
     console.log("Error while sending Email",err)
