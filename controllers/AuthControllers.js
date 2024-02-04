@@ -20,7 +20,105 @@ const Sendmail=async(FirstName,Email,UserId)=>{
       from:'Nishant Priyadarshi',
       to:Email,
       subject:"For Varification of Email",
-      html:`<p>Hii ${FirstName}, Please Click Here <a href="https://bitolx-backend.onrender.com/api/v1/Auth/VerifyUser/${hashId}">Link</a> To Verify Your Email</p>`
+      html:`
+      <div className="flex items-center justify-center flex-col mt-5">
+      <section className="max-w-2xl mx-auto bg-white">
+        <header className="py-8 flex justify-center w-full">
+          <a href="#">
+            <img
+              src="https://www.tailwindtap.com/_next/static/media/nav-logo.9a469dd4.svg"
+              alt="tailwindtaplogo"
+            />
+          </a>
+        </header>
+        <div className="h-[200px] bg-[#365CCE] w-full text-white flex items-center justify-center flex-col gap-5">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-[1px] bg-white"></div>
+            <EmailIcon />
+            <div className="w-10 h-[1px] bg-white"></div>
+          </div>
+          <div className="flex flex-col gap-3">
+            <div className="text-center text-sm sm:text-xl tracking-widest font-normal">
+              THANKS FOR SIGNING UP!
+            </div>
+            <div className="text-xl sm:text-3xl tracking-wider font-bold capitalize">
+              Verify your E-mail Address
+            </div>
+          </div>
+        </div>
+        <main className="mt-8 px-5 sm:px-10">
+          <h2 className="text-gray-700 ">Hello ${FirstName},</h2>
+          <p className="mt-2 leading-loose text-gray-600 ">
+            Please use the following Link To verify your E-mail Address
+          </p>
+          <p className="mt-4 leading-loose text-gray-600">
+            This passcode will only be valid for the next
+            <span className="font-bold"> 2 minutes</span> . If the passcode does
+            not work, you can use this login verification link:
+          </p>
+          <a href="https://bitolx-backend.onrender.com/api/v1/Auth/VerifyUser/${hashId} className="px-6 py-2 mt-6 text-sm font-bold tracking-wider text-white capitalize transition-colors duration-300 transform bg-orange-600 rounded-lg hover:bg-orange-500 focus:outline-none focus:ring focus:ring-orange-300 focus:ring-opacity-80">
+            Verify email
+          </a>
+          <p className="mt-8 text-gray-600">
+            Thank you, <br />
+            Infynno Team
+          </p>
+        </main>
+        <p className="text-gray-500  px-5 sm:px-10 mt-8">
+          This email was sent from{" "}
+          <a
+            href="mailto:sales@infynno.com"
+            className="text-[#365CCE] hover:underline"
+            alt="sales@infynno.com"
+            target="_blank"
+          >
+            bitolx@infynno.com
+          </a>
+          . If you&apos;d rather not receive this kind of email, you can{" "}
+          <a href="#" className="text-[#365CCE] hover:underline">
+            unsubscribe
+          </a>{" "}
+          or{" "}
+          <a href="#" className="text-[#365CCE] hover:underline">
+            manage your email preferences
+          </a>
+          .
+        </p>
+        <footer className="mt-8">
+          <div className="bg-gray-300/60 h-[200px] flex flex-col gap-3 justify-center items-center">
+            <div className="text-center flex flex-col gap-2">
+              <h1 className="text-[#365CCE] font-semibold tracking-wide text-lg">
+                Get in touch
+              </h1>
+              <a
+                href="mailto:sales@infynno.com"
+                className="text-gray-500"
+                alt="sales@infynno.com"
+              >
+                bitolx@infynno.com
+              </a>
+            </div>
+            <div className="flex items-center justify-center gap-3">
+              <a href="#_">
+                <FacebookIcon />
+              </a>
+              <a href="#_">
+                <LinkedinIcon />
+              </a>
+              <a href="#_">
+                <InstagramIcon />
+              </a>
+            </div>
+          </div>
+          <div className="bg-[#365CCE] py-5 text-white text-center">
+            <p className="mt-3 ">
+              © {new Date().getFullYear()} TailwindTap. All Rights Reserved.
+            </p>
+          </div>
+        </footer>
+      </section>
+    </div>
+      `
     })
   }catch(err){
     console.log("Error while sending Email",err)
