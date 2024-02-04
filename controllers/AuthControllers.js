@@ -2,6 +2,7 @@ const express = require("express");
 const UserSchema = require("../schema/UserSchema");
 const JWT = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+//href="https://bitolx-backend.onrender.com/api/v1/Auth/VerifyUser/${hashId}
 const nodemailer=require("nodemailer");
 require("dotenv").config();
 const Sendmail=async(FirstName,Email,UserId)=>{
@@ -21,103 +22,278 @@ const Sendmail=async(FirstName,Email,UserId)=>{
       to:Email,
       subject:"For Varification of Email",
       html:`
-      <div className="flex items-center justify-center flex-col mt-5">
-      <section className="max-w-2xl mx-auto bg-white">
-        <header className="py-8 flex justify-center w-full">
-          <a href="#">
-            <img
-              src="https://www.tailwindtap.com/_next/static/media/nav-logo.9a469dd4.svg"
-              alt="tailwindtaplogo"
-            />
-          </a>
-        </header>
-        <div className="h-[200px] bg-[#365CCE] w-full text-white flex items-center justify-center flex-col gap-5">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-[1px] bg-white"></div>
-            <EmailIcon />
-            <div className="w-10 h-[1px] bg-white"></div>
-          </div>
-          <div className="flex flex-col gap-3">
-            <div className="text-center text-sm sm:text-xl tracking-widest font-normal">
-              THANKS FOR SIGNING UP!
-            </div>
-            <div className="text-xl sm:text-3xl tracking-wider font-bold capitalize">
-              Verify your E-mail Address
-            </div>
-          </div>
-        </div>
-        <main className="mt-8 px-5 sm:px-10">
-          <h2 className="text-gray-700 ">Hello ${FirstName},</h2>
-          <p className="mt-2 leading-loose text-gray-600 ">
-            Please use the following Link To verify your E-mail Address
-          </p>
-          <p className="mt-4 leading-loose text-gray-600">
-            This passcode will only be valid for the next
-            <span className="font-bold"> 2 minutes</span> . If the passcode does
-            not work, you can use this login verification link:
-          </p>
-          <a href="https://bitolx-backend.onrender.com/api/v1/Auth/VerifyUser/${hashId} className="px-6 py-2 mt-6 text-sm font-bold tracking-wider text-white capitalize transition-colors duration-300 transform bg-orange-600 rounded-lg hover:bg-orange-500 focus:outline-none focus:ring focus:ring-orange-300 focus:ring-opacity-80">
-            Verify email
-          </a>
-          <p className="mt-8 text-gray-600">
-            Thank you, <br />
-            Infynno Team
-          </p>
-        </main>
-        <p className="text-gray-500  px-5 sm:px-10 mt-8">
-          This email was sent from{" "}
-          <a
-            href="mailto:sales@infynno.com"
-            className="text-[#365CCE] hover:underline"
-            alt="sales@infynno.com"
-            target="_blank"
-          >
-            bitolx@infynno.com
-          </a>
-          . If you&apos;d rather not receive this kind of email, you can{" "}
-          <a href="#" className="text-[#365CCE] hover:underline">
-            unsubscribe
-          </a>{" "}
-          or{" "}
-          <a href="#" className="text-[#365CCE] hover:underline">
-            manage your email preferences
-          </a>
-          .
-        </p>
-        <footer className="mt-8">
-          <div className="bg-gray-300/60 h-[200px] flex flex-col gap-3 justify-center items-center">
-            <div className="text-center flex flex-col gap-2">
-              <h1 className="text-[#365CCE] font-semibold tracking-wide text-lg">
-                Get in touch
-              </h1>
-              <a
-                href="mailto:sales@infynno.com"
-                className="text-gray-500"
-                alt="sales@infynno.com"
-              >
-                bitolx@infynno.com
+      <!DOCTYPE html>
+<html>
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Email Confirmation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style type="text/css">
+  /**
+   * Google webfonts. Recommended to include the .woff version for cross-client compatibility.
+   */
+  @media screen {
+    @font-face {
+      font-family: 'Source Sans Pro';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'), url(https://fonts.gstatic.com/s/sourcesanspro/v10/ODelI1aHBYDBqgeIAH2zlBM0YzuT7MdOe03otPbuUS0.woff) format('woff');
+    }
+
+    @font-face {
+      font-family: 'Source Sans Pro';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Source Sans Pro Bold'), local('SourceSansPro-Bold'), url(https://fonts.gstatic.com/s/sourcesanspro/v10/toadOcfmlt9b38dHJxOBGFkQc6VGVFSmCnC_l7QZG60.woff) format('woff');
+    }
+  }
+
+  /**
+   * Avoid browser level font resizing.
+   * 1. Windows Mobile
+   * 2. iOS / OSX
+   */
+  body,
+  table,
+  td,
+  a {
+    -ms-text-size-adjust: 100%; /* 1 */
+    -webkit-text-size-adjust: 100%; /* 2 */
+  }
+
+  /**
+   * Remove extra space added to tables and cells in Outlook.
+   */
+  table,
+  td {
+    mso-table-rspace: 0pt;
+    mso-table-lspace: 0pt;
+  }
+
+  /**
+   * Better fluid images in Internet Explorer.
+   */
+  img {
+    -ms-interpolation-mode: bicubic;
+  }
+
+  /**
+   * Remove blue links for iOS devices.
+   */
+  a[x-apple-data-detectors] {
+    font-family: inherit !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    line-height: inherit !important;
+    color: inherit !important;
+    text-decoration: none !important;
+  }
+
+  /**
+   * Fix centering issues in Android 4.4.
+   */
+  div[style*="margin: 16px 0;"] {
+    margin: 0 !important;
+  }
+
+  body {
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /**
+   * Collapse table borders to avoid space between cells.
+   */
+  table {
+    border-collapse: collapse !important;
+  }
+
+  a {
+    color: #1a82e2;
+  }
+
+  img {
+    height: auto;
+    line-height: 100%;
+    text-decoration: none;
+    border: 0;
+    outline: none;
+  }
+  </style>
+
+</head>
+<body style="background-color: #e9ecef;">
+
+  <!-- start preheader -->
+  <div class="preheader" style="display: none; max-width: 0; max-height: 0; overflow: hidden; font-size: 1px; line-height: 1px; color: #fff; opacity: 0;">
+    A preheader is the short summary text that follows the subject line when an email is viewed in the inbox.
+  </div>
+  <!-- end preheader -->
+
+  <!-- start body -->
+  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+    <!-- start logo -->
+    <tr>
+      <td align="center" bgcolor="#e9ecef">
+        <!--[if (gte mso 9)|(IE)]>
+        <table align="center" border="0" cellpadding="0" cellspacing="0" width="600">
+        <tr>
+        <td align="center" valign="top" width="600">
+        <![endif]-->
+        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+          <tr>
+            <td align="center" valign="top" style="padding: 36px 24px;">
+              <a href="https://sendgrid.com" target="_blank" style="display: inline-block;">
+                <img src="./img/paste-logo-light@2x.png" alt="Logo" border="0" width="48" style="display: block; width: 48px; max-width: 48px; min-width: 48px;">
               </a>
-            </div>
-            <div className="flex items-center justify-center gap-3">
-              <a href="#_">
-                <FacebookIcon />
-              </a>
-              <a href="#_">
-                <LinkedinIcon />
-              </a>
-              <a href="#_">
-                <InstagramIcon />
-              </a>
-            </div>
-          </div>
-          <div className="bg-[#365CCE] py-5 text-white text-center">
-            <p className="mt-3 ">
-              © {new Date().getFullYear()} TailwindTap. All Rights Reserved.
-            </p>
-          </div>
-        </footer>
-      </section>
-    </div>
+            </td>
+          </tr>
+        </table>
+        <!--[if (gte mso 9)|(IE)]>
+        </td>
+        </tr>
+        </table>
+        <![endif]-->
+      </td>
+    </tr>
+    <!-- end logo -->
+
+    <!-- start hero -->
+    <tr>
+      <td align="center" bgcolor="#e9ecef">
+        <!--[if (gte mso 9)|(IE)]>
+        <table align="center" border="0" cellpadding="0" cellspacing="0" width="600">
+        <tr>
+        <td align="center" valign="top" width="600">
+        <![endif]-->
+        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+          <tr>
+            <td align="left" bgcolor="#ffffff" style="padding: 36px 24px 0; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; border-top: 3px solid #d4dadf;">
+              <h1 style="margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -1px; line-height: 48px;">Confirm Your Email Address</h1>
+            </td>
+          </tr>
+        </table>
+        <!--[if (gte mso 9)|(IE)]>
+        </td>
+        </tr>
+        </table>
+        <![endif]-->
+      </td>
+    </tr>
+    <!-- end hero -->
+
+    <!-- start copy block -->
+    <tr>
+      <td align="center" bgcolor="#e9ecef">
+        <!--[if (gte mso 9)|(IE)]>
+        <table align="center" border="0" cellpadding="0" cellspacing="0" width="600">
+        <tr>
+        <td align="center" valign="top" width="600">
+        <![endif]-->
+        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+
+          <!-- start copy -->
+          <tr>
+            <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
+              <p style="margin: 0;">Tap the button below to confirm your email address. If you didn't create an account with <a href="https://sendgrid.com">Paste</a>, you can safely delete this email.</p>
+            </td>
+          </tr>
+          <!-- end copy -->
+
+          <!-- start button -->
+          <tr>
+            <td align="left" bgcolor="#ffffff">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td align="center" bgcolor="#ffffff" style="padding: 12px;">
+                    <table border="0" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td align="center" bgcolor="#1a82e2" style="border-radius: 6px;">
+                          <a href="https://sendgrid.com" target="_blank" style="display: inline-block; padding: 16px 36px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;">Do Something Sweet</a>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <!-- end button -->
+
+          <!-- start copy -->
+          <tr>
+            <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
+              <p style="margin: 0;">If that doesn't work, copy and paste the following link in your browser:</p>
+              <p style="margin: 0;"><a href="https://sendgrid.com" target="_blank">https://same-link-as-button.url/xxx-xxx-xxxx</a></p>
+            </td>
+          </tr>
+          <!-- end copy -->
+
+          <!-- start copy -->
+          <tr>
+            <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-bottom: 3px solid #d4dadf">
+              <p style="margin: 0;">Cheers,<br> Paste</p>
+            </td>
+          </tr>
+          <!-- end copy -->
+
+        </table>
+        <!--[if (gte mso 9)|(IE)]>
+        </td>
+        </tr>
+        </table>
+        <![endif]-->
+      </td>
+    </tr>
+    <!-- end copy block -->
+
+    <!-- start footer -->
+    <tr>
+      <td align="center" bgcolor="#e9ecef" style="padding: 24px;">
+        <!--[if (gte mso 9)|(IE)]>
+        <table align="center" border="0" cellpadding="0" cellspacing="0" width="600">
+        <tr>
+        <td align="center" valign="top" width="600">
+        <![endif]-->
+        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+
+          <!-- start permission -->
+          <tr>
+            <td align="center" bgcolor="#e9ecef" style="padding: 12px 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #666;">
+              <p style="margin: 0;">You received this email because we received a request for [type_of_action] for your account. If you didn't request [type_of_action] you can safely delete this email.</p>
+            </td>
+          </tr>
+          <!-- end permission -->
+
+          <!-- start unsubscribe -->
+          <tr>
+            <td align="center" bgcolor="#e9ecef" style="padding: 12px 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #666;">
+              <p style="margin: 0;">To stop receiving these emails, you can <a href="https://sendgrid.com" target="_blank">unsubscribe</a> at any time.</p>
+              <p style="margin: 0;">Paste 1234 S. Broadway St. City, State 12345</p>
+            </td>
+          </tr>
+          <!-- end unsubscribe -->
+
+        </table>
+        <!--[if (gte mso 9)|(IE)]>
+        </td>
+        </tr>
+        </table>
+        <![endif]-->
+      </td>
+    </tr>
+    <!-- end footer -->
+
+  </table>
+  <!-- end body -->
+
+</body>
+</html>
       `
     })
   }catch(err){
