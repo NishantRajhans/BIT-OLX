@@ -2,7 +2,6 @@ const express = require("express");
 const UserSchema = require("../schema/UserSchema");
 const JWT = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-//href="https://bitolx-backend.onrender.com/api/v1/Auth/VerifyUser/${hashId}
 const nodemailer=require("nodemailer");
 require("dotenv").config();
 const Sendmail=async(FirstName,Email,UserId)=>{
@@ -148,9 +147,6 @@ const Sendmail=async(FirstName,Email,UserId)=>{
         <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
           <tr>
             <td align="center" valign="top" style="padding: 36px 24px;">
-              <a href="https://sendgrid.com" target="_blank" style="display: inline-block;">
-                <img src="./img/paste-logo-light@2x.png" alt="Logo" border="0" width="48" style="display: block; width: 48px; max-width: 48px; min-width: 48px;">
-              </a>
             </td>
           </tr>
         </table>
@@ -200,7 +196,7 @@ const Sendmail=async(FirstName,Email,UserId)=>{
           <!-- start copy -->
           <tr>
             <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
-              <p style="margin: 0;">Tap the button below to confirm your email address. If you didn't create an account with <a href="https://sendgrid.com">Paste</a>, you can safely delete this email.</p>
+              <p style="margin: 0;">Tap the button below to confirm your email address. If you didn't create an account with <a >BitOlx</a>, you can safely delete this email.</p>
             </td>
           </tr>
           <!-- end copy -->
@@ -214,7 +210,7 @@ const Sendmail=async(FirstName,Email,UserId)=>{
                     <table border="0" cellpadding="0" cellspacing="0">
                       <tr>
                         <td align="center" bgcolor="#1a82e2" style="border-radius: 6px;">
-                          <a href="https://sendgrid.com" target="_blank" style="display: inline-block; padding: 16px 36px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;">Do Something Sweet</a>
+                          <a href="https://bitolx-backend.onrender.com/api/v1/Auth/VerifyUser/${hashId} target="_blank" style="display: inline-block; padding: 16px 36px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;">Verify Email</a>
                         </td>
                       </tr>
                     </table>
@@ -224,20 +220,12 @@ const Sendmail=async(FirstName,Email,UserId)=>{
             </td>
           </tr>
           <!-- end button -->
-
-          <!-- start copy -->
-          <tr>
-            <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
-              <p style="margin: 0;">If that doesn't work, copy and paste the following link in your browser:</p>
-              <p style="margin: 0;"><a href="https://sendgrid.com" target="_blank">https://same-link-as-button.url/xxx-xxx-xxxx</a></p>
-            </td>
-          </tr>
           <!-- end copy -->
 
           <!-- start copy -->
           <tr>
             <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-bottom: 3px solid #d4dadf">
-              <p style="margin: 0;">Cheers,<br> Paste</p>
+              <p style="margin: 0;">Cheers,<br>${FirstName}</p>
             </td>
           </tr>
           <!-- end copy -->
@@ -265,7 +253,7 @@ const Sendmail=async(FirstName,Email,UserId)=>{
           <!-- start permission -->
           <tr>
             <td align="center" bgcolor="#e9ecef" style="padding: 12px 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #666;">
-              <p style="margin: 0;">You received this email because we received a request for [type_of_action] for your account. If you didn't request [type_of_action] you can safely delete this email.</p>
+              <p style="margin: 0;">You received this email because we received a request for SignUp for your account. If you didn't request SignUp you can safely delete this email.</p>
             </td>
           </tr>
           <!-- end permission -->
