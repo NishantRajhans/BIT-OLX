@@ -42,3 +42,41 @@ exports.ForgetPassword=async(req,res)=>{
     })
 }
 }
+exports.AddToWishList=async(req,res)=>{
+    try{
+        const ProductId=req.body.ProductId;
+        const {UserId}=req.User;
+        const User=await UserSchema.findByIdAndUpdate({UserId:UserId},{$push:{
+            WishList:ProductId
+        }},{new:true})
+        return res.status(200).json({
+            success: true,
+            message:"Product Successfully Added To WishList",
+            User:User
+        })
+    }catch(err){
+        return res.status(200).json({
+            success: false,
+            message:"Error in AddToWishList"
+        })
+    }
+}
+exports.RemoveFromWishList=async(req,res)=>{
+    try{
+        const ProductId=req.body.ProductId;
+        const {UserId}=req.User;
+        const User=await UserSchema.findByIdAndUpdate({UserId:UserId},{$pull:{
+            WishList:ProductId
+        }},{new:true})
+        return res.status(200).json({
+            success: true,
+            message:"Product Successfully Added To WishList",
+            User:User
+        })
+    }catch(err){
+        return res.status(200).json({
+            success: false,
+            message:"Error in RemoveFromWishList"
+        })
+    }
+}

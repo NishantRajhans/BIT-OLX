@@ -328,7 +328,7 @@ exports.LogIn = async (req, res) => {
     const Token = await JWT.sign(
       {
         Email: Email,
-        Password: Password,
+        UserId:User._id,
       },
       process.env.JWT_SECRET_KEY
     );

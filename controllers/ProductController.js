@@ -95,6 +95,7 @@ exports.GetAllProducts=async(req,res)=>{
 }
 exports.GetProduct=async(req,res)=>{
     try{
+        console.log(req.params)
         const Product=await ProductSchema.findById({_id:req.params.id}).populate("ProductSeller").exec();
         return res.status(200).json({
             success: true,

@@ -27,6 +27,12 @@ const UserSchema = new mongoose.Schema(
             ref:"ProductSchema"
         }
     ],
+    WishList:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"ProductSchema"
+        }
+    ],
     Token:{
         type:String,
     },
