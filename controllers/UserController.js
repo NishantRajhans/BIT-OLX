@@ -46,6 +46,13 @@ exports.AddToWishList=async(req,res)=>{
     try{
         const ProductId=req.body.ProductId;
         const {UserId}=req.User;
+        const check=await UserSchema.findOne({UserId:UserId,WishList:ProductId})
+        if(check){
+            return res.status(200).json({
+                success: false,
+                message:"Product already present in wish list"
+            }) 
+        }
         const User=await UserSchema.findByIdAndUpdate({UserId:UserId},{$push:{
             WishList:ProductId
         }},{new:true})
@@ -72,6 +79,22 @@ exports.RemoveFromWishList=async(req,res)=>{
             success: true,
             message:"Product Successfully Added To WishList",
             User:User
+        })
+    }catch(err){
+        return res.status(200).json({
+            success: false,
+            message:"Error in RemoveFromWishList"
+        })
+    }
+}
+exports.GetAllWishListProducts=async(req,res)=>{
+    try{
+        const {UserId}=req.User;
+        const User=await UserSchema.findById({UserId:UserId})
+        return res.status(200).json({
+            success: true,
+            message:"Product Successfully Added To WishList",
+            Product:User.WishList
         })
     }catch(err){
         return res.status(200).json({
