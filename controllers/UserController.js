@@ -45,8 +45,7 @@ exports.ForgetPassword=async(req,res)=>{
 exports.AddToWishList=async(req,res)=>{
     try{
         const ProductId=req.body.ProductId;
-        const {UserId}=req.User;
-        const check=await UserSchema.findOne({UserId:UserId,WishList:ProductId})
+        const check=await UserSchema.findOne({Email:req.User.Email,WishList:ProductId})
         if(check){
             return res.status(200).json({
                 success: false,
@@ -71,8 +70,7 @@ exports.AddToWishList=async(req,res)=>{
 exports.RemoveFromWishList=async(req,res)=>{
     try{
         const ProductId=req.body.ProductId;
-        const {UserId}=req.User;
-        const User=await UserSchema.findByIdAndUpdate({UserId:UserId},{$pull:{
+        const User=await UserSchema.findOneAndUpdate({Email:req.User.Email},{$pull:{
             WishList:ProductId
         }},{new:true})
         return res.status(200).json({
@@ -89,17 +87,16 @@ exports.RemoveFromWishList=async(req,res)=>{
 }
 exports.GetAllWishListProducts=async(req,res)=>{
     try{
-        const {UserId}=req.User;
-        const User=await UserSchema.findById({UserId:UserId})
+        const User=await UserSchema.find({Email:req.User.Email})
         return res.status(200).json({
             success: true,
-            message:"Product Successfully Added To WishList",
-            Product:User.WishList
+            message:"WishList fetch successfully",
+            User:User
         })
     }catch(err){
         return res.status(200).json({
             success: false,
-            message:"Error in RemoveFromWishList"
+            message:"Error in GetAllWishListProducts"
         })
     }
 }
