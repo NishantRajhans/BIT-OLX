@@ -5,5 +5,5 @@ const {EditUser,ForgetPassword,AddToWishList,RemoveFromWishList}=require("../con
 router.put("/EditUser",AuthMiddleware,EditUser)
 router.put("/ForgetPassword",AuthMiddleware,ForgetPassword)
 router.put("/AddToWishList",AuthMiddleware,AddToWishList)
-router.put("/RemoveFromWishList",AuthMiddleware,RemoveFromWishList)
+router.delete("/RemoveFromWishList",AuthMiddleware,RemoveFromWishList)
 module.exports = router
