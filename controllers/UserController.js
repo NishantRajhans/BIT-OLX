@@ -26,7 +26,7 @@ const {
   const NewUser=await UserSchema.findOneAndUpdate({Email:req.User.Email},{
     FirstName:FirstName,
     LastName:LastName,
-    Email:Email,
+    Email:req.User.Email,
     Password:hashedPassword,
     PhoneNumber:PhoneNumber
   },{new:true})
