@@ -55,11 +55,13 @@ exports.EditProduct=async(req,res)=>{
             })
         }
         const User=await UserSchema.findOne({Email:req.User.Email});
+        console.log(User)
         const ImageUrl=await uploadImageToCloudinary(
             ProductImage,
             process.env.FOLDER_NAME
         )
-        const Product=await ProductSchema.create({
+        console.log(ImageUrl)
+        const Product=await ProductSchema.findByIdAndUpdate({_id:req.params.id},{
             ProductImage:ImageUrl.secure_url,
             ProductDescription: ProductDescription,
             ProductPrice: ProductPrice,
