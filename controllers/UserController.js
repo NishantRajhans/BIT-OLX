@@ -52,7 +52,7 @@ exports.AddToWishList=async(req,res)=>{
                 message:"Product already present in wish list"
             }) 
         }
-        const User=await UserSchema.findByIdAndUpdate({UserId:UserId},{$push:{
+        const User=await UserSchema.findOneAndUpdate({Email:req.User.Email},{$push:{
             WishList:ProductId
         }},{new:true})
         return res.status(200).json({
@@ -69,13 +69,13 @@ exports.AddToWishList=async(req,res)=>{
 }
 exports.RemoveFromWishList=async(req,res)=>{
     try{
-        const ProductId=req.body.ProductId;
+        const ProductId=req.params.id;
         const User=await UserSchema.findOneAndUpdate({Email:req.User.Email},{$pull:{
             WishList:ProductId
         }},{new:true})
         return res.status(200).json({
             success: true,
-            message:"Product Successfully Added To WishList",
+            message:"Product Successfully Remove from WishList",
             User:User
         })
     }catch(err){
@@ -87,7 +87,7 @@ exports.RemoveFromWishList=async(req,res)=>{
 }
 exports.GetAllWishListProducts=async(req,res)=>{
     try{
-        const User=await UserSchema.find({Email:req.User.Email})
+        const User=await UserSchema.find({Email:req.User.Email}).populate("WishList").exec()
         return res.status(200).json({
             success: true,
             message:"WishList fetch successfully",

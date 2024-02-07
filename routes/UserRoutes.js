@@ -5,6 +5,6 @@ const {EditUser,ForgetPassword,AddToWishList,RemoveFromWishList,GetAllWishListPr
 router.put("/EditUser",AuthMiddleware,EditUser)
 router.put("/ForgetPassword",AuthMiddleware,ForgetPassword)
 router.put("/AddToWishList",AuthMiddleware,AddToWishList)
-router.delete("/RemoveFromWishList",AuthMiddleware,RemoveFromWishList)
+router.delete("/RemoveFromWishList/:id",AuthMiddleware,RemoveFromWishList)
 router.get("/GetAllWishListProducts",AuthMiddleware,GetAllWishListProducts)
 module.exports = router

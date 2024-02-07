@@ -11,7 +11,7 @@ exports.AuthMiddleware = async (req, res, next) => {
       });
     }
     try {
-      const decode = JWT.verify(Token, process.env.JWT_SECRET_KEY);
+      const decode =JWT.verify(Token, process.env.JWT_SECRET_KEY);
       req.User = decode;
     } catch (error) {
       return res

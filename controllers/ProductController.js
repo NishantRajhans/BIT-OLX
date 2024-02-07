@@ -61,7 +61,7 @@ exports.EditProduct=async(req,res)=>{
 exports.DeleteProduct=async(req,res)=>{
     try{
         const ProductId=req.params.id
-        const Product=await ProductSchema.findByIdAndDelete({_id:ProductId});
+        const Product=await ProductSchema.findByIdAndDelete({_id:ProductId})
         const UpdateUser=await UserSchema.findOneAndUpdate({Email:req.User.Email},{$pull:{
             Products:ProductId
         }},{new:true});
