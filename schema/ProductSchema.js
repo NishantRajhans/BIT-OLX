@@ -16,6 +16,10 @@ const ProductSchema=new mongoose.Schema({
         type:Number,
         required:true,
     },
+    ProductTitle:{
+        type:String,
+        required:true,
+    },
     ProductSeller:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"UserSchema",

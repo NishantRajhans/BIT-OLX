@@ -3,8 +3,8 @@ const ProductSchema = require("../schema/ProductSchema");
 require("dotenv").config();
 exports.CreateProduct=async(req,res)=>{
 try{
-    const {ProductImage,ProductDescription,ProductCategory,ProductPrice}=req.body;
-    if(!ProductImage||!ProductCategory||!ProductDescription||!ProductPrice){
+    const {ProductImage,ProductDescription,ProductCategory,ProductPrice,ProductTitle}=req.body;
+    if(!ProductImage||!ProductCategory||!ProductDescription||!ProductPrice||!ProductTitle){
         return res.status(200).json({
             success: false,
             message:"All fields are required"
@@ -17,6 +17,7 @@ try{
         ProductCategory: ProductCategory,
         ProductPrice: ProductPrice,
         ProductSeller:User,
+        ProductTitle:ProductTitle,
         ProductCreatedAt:Date.now()
     })
     const UpdateUser=await UserSchema.findByIdAndUpdate({_id:User._id},{
@@ -39,12 +40,13 @@ try{
 }
 exports.EditProduct=async(req,res)=>{
     try{
-        const {ProductImage,ProductDescription,ProductPrice}=req.body;
+        const {ProductImage,ProductDescription,ProductPrice,ProductTitle}=req.body;
         const ProductId=req.params.id
         const Product=await ProductSchema.findByIdAndUpdate({_id:ProductId},{
             ProductImage:ProductImage,
             ProductDescription:ProductDescription,
             ProductPrice:ProductPrice,
+            ProductTitle:ProductTitle
         },{new:true});
         return res.status(200).json({
             success: true,
