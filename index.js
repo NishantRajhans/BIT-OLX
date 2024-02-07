@@ -4,6 +4,8 @@ const DBconnection=require("./config/database")
 const AuthRoutes=require("./routes/AuthRoutes")
 const ProductRoutes=require("./routes/ProductRoutes")
 const UserRoutes=require("./routes/UserRoutes")
+const {cloudinaryConnect}=require("./config/cloudinary")
+const fileUpload = require("express-fileupload");
 const cors=require("cors")
 const dotenv = require('dotenv')
 const bodyParser = require('body-parser')
@@ -11,6 +13,11 @@ const PORT=process.env.PORT ||3000
 dotenv.config();
 app.use(bodyParser.json())
 app.use(cors())
+app.use(fileUpload({
+    useTempFiles:true,
+    tempFileDir:"/tmp/"
+}))
+cloudinaryConnect()
 app.use("/api/v1/Auth",AuthRoutes);
 app.use("/api/v1/User",UserRoutes);
 app.use("/api/v1/Product",ProductRoutes);

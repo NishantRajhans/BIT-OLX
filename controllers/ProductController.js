@@ -1,9 +1,11 @@
 const UserSchema = require("../schema/UserSchema");
 const ProductSchema = require("../schema/ProductSchema");
+const { uploadImageToCloudinary } = require("../utils/ImageUploader");
 require("dotenv").config();
 exports.CreateProduct=async(req,res)=>{
 try{
-    const {ProductImage,ProductDescription,ProductCategory,ProductPrice,ProductTitle}=req.body;
+    const {ProductDescription,ProductCategory,ProductPrice,ProductTitle}=req.body;
+    const ProductImage=req.files.ProductImage
     if(!ProductImage||!ProductCategory||!ProductDescription||!ProductPrice||!ProductTitle){
         return res.status(200).json({
             success: false,
@@ -11,8 +13,12 @@ try{
         })
     }
     const User=await UserSchema.findOne({Email:req.User.Email});
+    const ImageUrl=await uploadImageToCloudinary(
+        ProductImage,
+        process.env.FOLDER_NAME
+    )
     const Product=await ProductSchema.create({
-        ProductImage: ProductImage,
+        ProductImage:ImageUrl.secure_url,
         ProductDescription: ProductDescription,
         ProductCategory: ProductCategory,
         ProductPrice: ProductPrice,
@@ -40,25 +46,37 @@ try{
 }
 exports.EditProduct=async(req,res)=>{
     try{
-        const {ProductImage,ProductDescription,ProductPrice,ProductTitle}=req.body;
-        const ProductId=req.params.id
-        const Product=await ProductSchema.findByIdAndUpdate({_id:ProductId},{
-            ProductImage:ProductImage,
-            ProductDescription:ProductDescription,
-            ProductPrice:ProductPrice,
-            ProductTitle:ProductTitle
-        },{new:true});
+        const {ProductDescription,ProductPrice,ProductTitle}=req.body;
+        const ProductImage=req.files.ProductImage
+        if(!ProductImage||!ProductDescription||!ProductPrice||!ProductTitle){
+            return res.status(200).json({
+                success: false,
+                message:"All fields are required"
+            })
+        }
+        const User=await UserSchema.findOne({Email:req.User.Email});
+        const ImageUrl=await uploadImageToCloudinary(
+            ProductImage,
+            process.env.FOLDER_NAME
+        )
+        const Product=await ProductSchema.create({
+            ProductImage:ImageUrl.secure_url,
+            ProductDescription: ProductDescription,
+            ProductPrice: ProductPrice,
+            ProductSeller:User,
+            ProductTitle:ProductTitle,
+        })
         return res.status(200).json({
             success: true,
-            message:"Product Edit successfully",
-            Product:Product,
+            message:"product create successfully",
+            Product: Product
         })
-}catch(err){
-    return res.status(200).json({
-        success: false,
-        message:"Error in editing product"
-    })
-}
+    }catch(err){
+        return res.status(200).json({
+            success: false,
+            message:"Error in creating product"
+        })
+    }
 }
 exports.DeleteProduct=async(req,res)=>{
     try{

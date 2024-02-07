@@ -3,23 +3,34 @@ const JWT = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 exports.EditUser=async(req,res)=>{
 try{
-const User=req.User;
 const {
     FirstName,
     LastName,
     Email,
     Password,
+    ConfirmPassword ,
     PhoneNumber,
   } = req.body;
+  if (!Email || !Password || !ConfirmPassword||!PhoneNumber||!FirstName||!LastName) {
+    return res.status(200).json({
+      success: false,
+      message: "All fields are required",
+    });
+  }
+  if (Password !== ConfirmPassword) {
+    return res.status(200).json({
+      success: false,
+      message: "Password and Confirm Password do not match",
+    });
+  }
   const hashedPassword=await bcrypt.hash(Password,10);
-  const NewUser=await UserSchema.findOneAndUpdate({Email:Email},{
+  const NewUser=await UserSchema.findOneAndUpdate({Email:req.User.Email},{
     FirstName:FirstName,
     LastName:LastName,
     Email:Email,
     Password:hashedPassword,
     PhoneNumber:PhoneNumber
   },{new:true})
-  console.log("3");
   return res.status(200).json({
     success: true,
     message:"User updated successfully",
