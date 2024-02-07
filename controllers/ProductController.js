@@ -5,6 +5,7 @@ require("dotenv").config();
 exports.CreateProduct=async(req,res)=>{
 try{
     const {ProductDescription,ProductCategory,ProductPrice,ProductTitle}=req.body;
+    console.log(req)
     const ProductImage=req.files.ProductImage
     if(!ProductImage||!ProductCategory||!ProductDescription||!ProductPrice||!ProductTitle){
         return res.status(200).json({
@@ -13,10 +14,12 @@ try{
         })
     }
     const User=await UserSchema.findOne({Email:req.User.Email});
+    console.log(User)
     const ImageUrl=await uploadImageToCloudinary(
         ProductImage,
         process.env.FOLDER_NAME
     )
+    console.log(ImageUrl)
     const Product=await ProductSchema.create({
         ProductImage:ImageUrl.secure_url,
         ProductDescription: ProductDescription,
@@ -47,6 +50,7 @@ try{
 exports.EditProduct=async(req,res)=>{
     try{
         const {ProductDescription,ProductPrice,ProductTitle}=req.body;
+        console.log(req)
         const ProductImage=req.files.ProductImage
         if(!ProductImage||!ProductDescription||!ProductPrice||!ProductTitle){
             return res.status(200).json({
