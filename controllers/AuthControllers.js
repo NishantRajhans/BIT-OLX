@@ -420,7 +420,7 @@ exports.VerifyUser = async (req, res) => {
       { new: true }
     );
     console.log(UpdateUser);
-    const filePath = path.join("../verify.html", 'verify.html');
+    const filePath = path.join("../", 'verify.html');
     console.log(filePath)
     fs.readFile(filePath, 'utf8', (err, data) => {
       console.log(err)
