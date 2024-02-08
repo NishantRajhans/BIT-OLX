@@ -407,7 +407,9 @@ exports.SignUp = async (req, res) => {
 exports.VerifyUser = async (req, res) => {
   try {
     const HashedId = req.params.id;
+    console.log(HashedId);
     const UserId = JWT.verify(HashedId, process.env.JWT_SECRET_KEY);
+    console.log(UserId);
     const UpdateUser = await UserSchema.findByIdAndUpdate(
       UserId.UserId,
       {
@@ -417,13 +419,17 @@ exports.VerifyUser = async (req, res) => {
       },
       { new: true }
     );
+    console.log(UpdateUser);
     const filePath = path.join(__dirname, 'verify.html');
+    console.log(filePath)
     fs.readFile(filePath, 'utf8', (err, data) => {
+      console.log(err)
         if (err) {
           return res
           .status(200)
           .json({ success: false, message: "Error In VerifyUser" });
         }
+        console.log(data)
         return res.send(data);
       });
   } catch (err) {
