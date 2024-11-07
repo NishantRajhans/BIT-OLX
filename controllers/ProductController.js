@@ -42,7 +42,7 @@ exports.CreateProduct = async (req, res) => {
     );
     return res.status(200).json({
       success: true,
-      message: "product create successfully",
+      message: "Product Create Successfully",
       UpdateUser: UpdateUser,
       Product: Product,
     });
@@ -82,7 +82,7 @@ exports.EditProduct = async (req, res) => {
     );
     return res.status(200).json({
       success: true,
-      message: "product edited successfully",
+      message: "Product Edited Successfully",
       Product: Product,
     });
   } catch (err) {
@@ -107,7 +107,7 @@ exports.DeleteProduct = async (req, res) => {
     );
     return res.status(200).json({
       success: true,
-      message: "product delete successfully",
+      message: "Product Delete Successfully",
       UpdateUser: UpdateUser,
     });
   } catch (err) {
@@ -124,7 +124,7 @@ exports.GetAllProducts = async (req, res) => {
       .exec();
     return res.status(200).json({
       success: true,
-      message: "Get all products successfully",
+      message: "Get All Products Successfully",
       Products: Products,
     });
   } catch (err) {
@@ -141,7 +141,7 @@ exports.GetProduct = async (req, res) => {
       .exec();
     return res.status(200).json({
       success: true,
-      message: "Get product successfully",
+      message: "Get Product Successfully",
       Product: Product,
     });
   } catch (err) {
@@ -159,7 +159,7 @@ exports.GetMyProduct = async (req, res) => {
       .exec();
     return res.status(200).json({
       success: true,
-      message: "Get My product successfully",
+      message: "Get My Product Successfully",
       Products: User[0].Products,
     });
   } catch (err) {
@@ -176,7 +176,7 @@ exports.GetProductsByCategory = async (req, res) => {
       .exec();
     return res.status(200).json({
       success: true,
-      message: "Get product successfully",
+      message: "Get Products Successfully",
       Product: Product,
     });
   } catch (err) {

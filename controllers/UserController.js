@@ -85,7 +85,7 @@ exports.RemoveFromWishList=async(req,res)=>{
         }},{new:true})
         return res.status(200).json({
             success: true,
-            message:"Product Successfully Remove from WishList",
+            message:"Product Successfully Remove From WishList",
             User:User
         })
     }catch(err){
